@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin",
+      "firstname": "Vardenis",
+      "lastname": "Pavardenis",
+      "address": "paliuniskio g. 15",
+      "comment": "komentaras",
+      "mac": "00:13:96:FF:FE:12:34:56",
+      "subscription": "viasat",
+      "price": 14.45,
+      "subscriptionEnd": 1317826080,
+      "id": 2
+    },
+    {
+      "username": "admin",
+      "password": "admin",
+      "firstname": "Vardenis",
+      "lastname": "Pavardenis",
+      "address": "paliuniskio g. 15",
+      "comment": "Ilgesnis komentaras testavimui",
+      "mac": "00:13:96:FF:FE:12:34:56",
+      "subscription": "viasat",
+      "price": 19.45,
+      "subscriptionEnd": 1317826080,
+      "id": 3
+    },
+    {
+      "firstname": "Ugnius",
+      "lastname": "Samuolis",
+      "address": "Jablonskio g. 15",
+      "comment": "test",
+      "mac": "25:25:FF:F6",
+      "subscription": "viasat",
+      "price": "16.99",
+      "username": "911a01f0",
+      "password": "98157450",
+      "subscriptionEnd": 1615317342134,
+      "userId": null,
+      "id": 4
+    },
+    {
+      "firstname": "test",
+      "username": "2b49aec0",
+      "password": "b8d7c947",
+      "subscriptionEnd": 1616097809509,
+      "userId": "111835635450008151141",
+      "id": 5
+    }
+  ],
+  "messageGroups": [
+    {
+      "id": 1,
+      "name": "Primary",
+      "description": "description",
+      "members": []
+    },
+    {
+      "id": 2,
+      "name": "Secondary",
+      "description": "description",
+      "members": []
+    }
+  ],
+  "scheduledMessages": [
+    {
+      "id": 1,
+      "groupname": "Primary",
+      "content": "Išpardavimas ....",
+      "senddate": 1317826080
+    }
+  ]
+}

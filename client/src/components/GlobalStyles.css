@@ -1,0 +1,39 @@
+.login {
+    position: relative;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    max-width: 30%;
+}
+
+.box{
+    background:white;
+    width:300px;
+    border-radius:6px;
+    margin: 0 auto 0 auto;
+    padding:5px 5px 20px 5px;
+    border: #2980b9 4px solid;
+}
+
+h1{
+    font-size:1.5em;
+    color:#525252;
+    text-align:center;
+}
+
+.btn{
+    padding-bottom:5px;
+}
+
+.wide {
+    width:100%;
+}
+
+.container {
+    margin-top: 3px;
+}
+
+.listing {
+    margin-left: 5px;
+    margin-right: 5px;
+}
