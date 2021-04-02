@@ -6,7 +6,7 @@ import { fetchUser, editUser } from "../../actions/users";
 import UserForm from "./UserForm";
 
 class UserEdit extends React.Component {
-  state = { open: false }
+  state = { open: true }
   componentDidMount() {
     this.props.fetchUser(this.props.match.params.id);
   }
@@ -39,7 +39,7 @@ class UserEdit extends React.Component {
         style={{padding: '10px'}}
       >
         <h3>Redaguoti klientą</h3>
-        <UserForm onSubmit={this.onSubmit} />
+        <UserForm initialValues={_.pick(this.props.user, 'firstname', 'lastname', "address", "mac", "subscription", "price", "comment")} onSubmit={this.onSubmit} />
       </Modal>
     </div>
     );

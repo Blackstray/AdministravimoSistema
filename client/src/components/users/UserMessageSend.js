@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import history from "../../history";
 import Modal from "../Modal";
 import { fetchUser } from "../../actions/users";
+import { Form, Input, TextArea } from 'semantic-ui-react'
 
 class UserMessageSend extends React.Component {
     componentDidMount() {
@@ -34,11 +35,15 @@ class UserMessageSend extends React.Component {
             return <div>Loading...</div>;
         }
         return (
-            <form method="post">
-            Content: <input type="text" name="content" />
-            
-            
-            </form>
+            <Form>
+                <Form.Field
+                        id='content'
+                        control={TextArea}
+                        label='Turinys'
+                        placeholder='Turinys'
+                        required
+                    />
+            </Form>
         );
     }
 

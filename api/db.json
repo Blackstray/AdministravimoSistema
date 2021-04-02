@@ -41,12 +41,25 @@
       "id": 4
     },
     {
-      "firstname": "test",
-      "username": "2b49aec0",
-      "password": "b8d7c947",
-      "subscriptionEnd": 1616097809509,
+      "firstname": "Andrius",
+      "lastname": "Maciulioskaitis",
+      "address": "Paliuniskio g. 5",
+      "mac": "45:AA:C6:EE",
+      "subscription": "viasat gold",
+      "price": "59.66",
+      "comment": "Sena antena",
+      "username": "9dfe5000",
+      "password": "a27d5976",
+      "subscriptionEnd": 1617097155849,
       "userId": "111835635450008151141",
       "id": 5
+    },
+    {
+      "username": "603d75f1",
+      "password": "8c19eeb8",
+      "subscriptionEnd": 1617292452268,
+      "userId": "111835635450008151141",
+      "id": 6
     }
   ],
   "messageGroups": [

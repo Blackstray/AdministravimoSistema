@@ -11,6 +11,7 @@ import MessageGroupDelete from './messages/MessageGroupDelete';
 import Header from "./Header";
 import history from "../history";
 import UserMessageSend from "./users/UserMessageSend";
+import UserExtendSubscription from "./users/UserExtendSubscription";
 import Login from './Login';
 import './GlobalStyles.css';
 
@@ -26,6 +27,7 @@ const App = (props) => {
           <Route path="/users/delete/:id" exact component={UserDelete} />
           <Route path="/users/:id" exact component={UserShow} />
           <Route path="/users/messagesend/:id" exact component={UserMessageSend} />
+          <Route path="/users/extend/:id" exact component={UserExtendSubscription} />
           <Route path="/login" exact component={Login} />
           <Route path="/messages" exact component={MessagesPage} />
           <Route path="/messages/delete/:id" exact component={MessageGroupDelete}/>

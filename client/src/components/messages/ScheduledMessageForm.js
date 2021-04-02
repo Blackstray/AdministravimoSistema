@@ -1,6 +1,6 @@
 import React from 'react';
 import { Field, reduxForm } from "redux-form";
-//import DatePicker from '../DatePicker';
+import { Form, Input, Button, TextArea } from 'semantic-ui-react';
 import SemanticDatepicker from 'react-semantic-ui-datepickers';
 
 // const [currentDate, setNewDate] = useState(null);
@@ -41,14 +41,45 @@ class ScheduledMessageForm extends React.Component {
 
     render(){
         return (
-            <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
-                <Field name="groupname" component={this.renderInput} label="Grupės pavadinimas"/>
-                <Field name="content" component={this.renderInput} label="Pranešimo tūrinys" />
-                {/* <Field name="senddate" component={DatePicker} label="Siuntimo Data" /> */}
-                <SemanticDatepicker id="senddate" name="senddate" label="Siuntimo Data" onChange={this.onChange}/>
-                <br />
-                <button className="ui button primary">Pateikti</button>
-            </form>
+            // <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
+            //     <Field name="groupname" component={this.renderInput} label="Grupės pavadinimas"/>
+            //     <Field name="content" component={this.renderInput} label="Pranešimo tūrinys" />
+            //     {/* <Field name="senddate" component={DatePicker} label="Siuntimo Data" /> */}
+            //     <SemanticDatepicker id="senddate" name="senddate" label="Siuntimo Data" onChange={this.onChange} autoComplete="off"/>
+            //     <br />
+            //     <button className="ui button primary">Pateikti</button>
+            // </form>
+            <Form size='small'  onSubmit={this.props.handleSubmit(this.onSubmit)}>
+                    <Form.Field
+                        style={{ width: '50%'}}
+                        id='groupname'
+                        control={Input}
+                        label="Grupes pavadinimas"
+                        placeholder='Grupes pavadinimas'
+                        required
+                    />
+                    <Form.Field
+                        style={{ width: '50%'}}
+                        id='content'
+                        control={TextArea}
+                        label='Turinys'
+                        placeholder='Turinys'
+                        required
+                    />
+                    <Form.Field
+                        style={{ width: '50%'}}
+                        id='content'
+                        control={SemanticDatepicker}
+                        label='Siuntimo Data'
+                        placeholder='Siuntimo Data'
+                        required
+                    />
+                    <Form.Field
+                        id=''
+                        control={Button}
+                        content='Patvirtinti'
+                    />
+            </Form>
         );
     }
 }

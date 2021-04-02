@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { createUser } from "../../actions/users";
 import UserForm from './UserForm';
@@ -19,11 +19,14 @@ class UserCreate extends React.Component {
     <div>
       <Button
         onClick={() => this.setState({open: true})}
+        icon
       >
+        {/* <Icon name='plus square outline' size="large" /> */}
         Naujas Klientas
       </Button>
 
       <Modal
+      size='small'
         dimmer='blurring'
         open={this.state.open}
         onClose={() => this.setState({open: false})}

@@ -12,6 +12,7 @@ class MessagesPage extends React.Component {
         return (
             <div>
                 <ScheduledMessageList />
+                <br />
                 <MessageGroupList />
             </div>
         );
