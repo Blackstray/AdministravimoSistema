@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 //import { connect } from "react-redux";
 import GoogleAuth from './GoogleAuth';
+import { Menu } from 'semantic-ui-react';
 import './GlobalStyles.css';
 
 const Header = () => {
@@ -9,20 +10,36 @@ const Header = () => {
   //   return <div></div>;
   // else
   return (
-    <div className="ui secondary pointing menu">
-      <Link to="/" className="item">
-        Administravimo Sistema
-      </Link>
-      <div className="right menu">
+    // <div className="ui secondary pointing menu">
+    //   <Link to="/" className="item">
+    //     <h1>Administravimo Sistema</h1>
+    //   </Link>
+    //   <div className="right menu">
+    //     <Link to="/" className="item">
+    //       Vartotojai
+    //     </Link>
+    //     <Link to="/messages" className="item">
+    //       Pranešimai
+    //     </Link>
+    //     <GoogleAuth />
+    //   </div>
+    // </div>
+    <Menu className="ui secondary pointing menu">
+      <Menu.Item>
         <Link to="/" className="item">
+          <h1>Administravimo Sistema</h1>
+        </Link>
+      </Menu.Item>
+      <Menu.Item className="right menu">
+        <Link to="/" className="item menu button">
           Vartotojai
         </Link>
         <Link to="/messages" className="item">
           Pranešimai
         </Link>
         <GoogleAuth />
-      </div>
-    </div>
+      </Menu.Item>
+    </Menu>
   );
 };
 

@@ -53,13 +53,6 @@
       "subscriptionEnd": 1617097155849,
       "userId": "111835635450008151141",
       "id": 5
-    },
-    {
-      "username": "603d75f1",
-      "password": "8c19eeb8",
-      "subscriptionEnd": 1617292452268,
-      "userId": "111835635450008151141",
-      "id": 6
     }
   ],
   "messageGroups": [
@@ -74,6 +67,12 @@
       "name": "Secondary",
       "description": "description",
       "members": []
+    },
+    {
+      "id": 3
+    },
+    {
+      "id": 4
     }
   ],
   "scheduledMessages": [

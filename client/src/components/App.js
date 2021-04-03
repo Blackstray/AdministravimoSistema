@@ -8,7 +8,6 @@ import UserShow from "./users/UserShow";
 import UserList from "./users/UserList";
 import MessagesPage from './messages/MessagesPage';
 import MessageGroupDelete from './messages/MessageGroupDelete';
-import Header from "./Header";
 import history from "../history";
 import UserMessageSend from "./users/UserMessageSend";
 import UserExtendSubscription from "./users/UserExtendSubscription";
@@ -19,7 +18,6 @@ const App = (props) => {
   return (
     <div className="ui container">
       <Router history={history}>
-        <Header />
         <Switch>
           <Route path="/" exact component={UserList} />
           <Route path="/users/new" exact component={UserCreate} />

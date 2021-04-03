@@ -3,11 +3,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchUsers } from "../../actions/users";
-import { List, Icon, Dropdown, Menu } from "semantic-ui-react";
+import { List, Icon, Dropdown, Menu, Search } from "semantic-ui-react";
 import UserMessageSend from "./UserMessageSend";
 import DropdownButton from "../DropdownButton";
 import SearchBar from "../SearchBar";
 import UserCreate from "./UserCreate";
+import Header from "../Header";
 import Filter from "../Filter";
 import "../GlobalStyles.css";
 
@@ -27,9 +28,8 @@ const options = [
     href: `users/messagesend/`,
   },
 ];
-
 class UserList extends React.Component {
-  state = { search: "Vardenis" }
+  state = { search: "Vardenis" };
   componentDidMount() {
     this.props.fetchUsers();
   }
@@ -64,7 +64,7 @@ class UserList extends React.Component {
   }
 
   renderList() {
-    return this.props.users.map((user) => {      
+    return this.props.users.map((user) => {
       //console.log(this.search);
       //if(user.firstname.includes(this.search))
       return (
@@ -72,10 +72,10 @@ class UserList extends React.Component {
           <List className="two wide column" size="large">
             <List.Item>
               <List.Content>
-                <List.Header as="a">
+                <List.Header>
                   <Link to={`/users/${user.id}`}>{user.firstname}</Link>
                 </List.Header>
-                <List.Description as="a">{user.lastname}</List.Description>
+                <List.Description>{user.lastname}</List.Description>
               </List.Content>
             </List.Item>
           </List>
@@ -114,7 +114,7 @@ class UserList extends React.Component {
           <div className="two wide column" size="large">
             {/* <DropdownButton options={this.userOptions(options, user.id)} /> */}
             <Menu fluid vertical className="column" size="mini">
-              <Dropdown item text="Veiksmai">
+              <Dropdown item icon="cog" text="Veiksmai">
                 <Dropdown.Menu>
                   <Dropdown.Item>
                     <Link className="text" to={`/users/extend/${user.id}`}>
@@ -130,7 +130,7 @@ class UserList extends React.Component {
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Link className="text" to={`/users/delete/${user.id}`}>
-                      <Icon name="delete" />
+                      <Icon name="trash" />
                       Ištrinti
                     </Link>
                   </Dropdown.Item>
@@ -156,27 +156,87 @@ class UserList extends React.Component {
     } else
       return (
         <div className="listing text">
+          <Header />
           <div className="item ui grid" styele={{ paddingTop: "10px" }}>
-            <h2 className="twelve wide column">Klientai</h2>
             <div>
               <br />
-              <SearchBar />
+              <Search />
             </div>
             {/* <Filter /> */}
           </div>
           <div className="item ui grid" style={{ verticalAlign: "middle" }}>
-            <div className="two wide column important">Vardas Pavardė</div>
-            <div className="two wide column important">Adresas</div>
-            <div className="two wide column important">MAC</div>
-            <div className="two wide column important">Prenumerata</div>
-            <div className="two wide column important">
-              Prenumeratos Mokestis
-            </div>
-            <div className="two wide column important">Prenumerata Baigsis</div>
-            <div className="two wide column important">Komentaras</div>
-            <div className="two wide column important">
-              {this.renderCreate()}
-            </div>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "2em" }}
+            >
+              <List.Item>
+                <List.Content>Vardas Pavardė</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>Adresas</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>MAC</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>Prenumerata</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>Prenumeratos Mokestis</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>Prenumerata Baigsis</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>Komentaras</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column important"
+              size="large"
+              style={{ paddingTop: "1em" }}
+            >
+              <List.Item>
+                <List.Content>{this.renderCreate()}</List.Content>
+              </List.Item>
+            </List>
           </div>
           <div className="ui celled list">{this.renderList()}</div>
         </div>

@@ -3,6 +3,7 @@ import { Button, Modal } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { createScheduledMessage } from "../../actions/scheduledMessages";
 import ScheduledMessageForm from './ScheduledMessageForm';
+import "../GlobalStyles.css";
 
 class ScheduledMessageCreate extends React.Component {
     state = { open: false }
@@ -21,13 +22,14 @@ class ScheduledMessageCreate extends React.Component {
                 </Button>
 
                 <Modal
+                    className="modalSmall"
                     dimmer='blurring'
                     open={this.state.open}
                     onClose={() => this.setState({open: false})}
                     style={{padding: '10px'}}
                 >
-                    <h3>Suplanuoti pranešimą</h3>
-                    <ScheduledMessageForm onSubmit={this.onSubmit} />
+                    <Modal.Header>Suplanuoti pranešimą</Modal.Header>
+                    <Modal.Content><ScheduledMessageForm onSubmit={this.onSubmit} /></Modal.Content>
                 </Modal>
             </div>
         );

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import MessageGroupList from './MessageGroupList';
 import ScheduledMessageList from './ScheduledMessageList';
+import Header from "../Header";
 
 class MessagesPage extends React.Component {
     renderButtons() {
@@ -11,7 +12,9 @@ class MessagesPage extends React.Component {
     render() {
         return (
             <div>
+                <Header />
                 <ScheduledMessageList />
+                <br />
                 <br />
                 <MessageGroupList />
             </div>

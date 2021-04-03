@@ -1,9 +1,9 @@
 import React from 'react';
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Form, Input, Button, TextArea } from 'semantic-ui-react';
 
-class MessageForm extends React.Component {
+class MessageGroupForm extends React.Component {
     renderError({ error, touched}) {
         if(touched && error) {
             return (
@@ -44,13 +44,25 @@ class MessageForm extends React.Component {
 
     render(){
         return (
-            <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
-                <Field name="name" component={this.renderInput} label="Grupės pavadinimas"/>
-                <Field name="description" component={this.renderInput} label="Grupės aprašymas" />
+            <Form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
+                <Form.Field 
+                    id="name" 
+                    control={Input} 
+                    label="Grupės pavadinimas"
+                    required
+                />
+                <Form.Field required>
+                <label>Klientai</label>
                 <Dropdown name="members" placeholder='Klientai' fluid multiple selection options={this.makeOptions()} />
+                </Form.Field>
+                <Form.Field 
+                    id="members" 
+                    control={TextArea} 
+                    label="Grupės aprašymas" 
+                />
                 <br />
-                <button className="ui button primary">Submit</button>
-            </form>
+                <Form.Field id="" control={Button} content="Patvirtinti" />
+            </Form>
         );
     }
 }
@@ -68,10 +80,10 @@ const validate = (formValues) => {
     return errors;
 };
 
-MessageForm = reduxForm({
-    form: "messageForm",
+MessageGroupForm = reduxForm({
+    form: "messageGroupForm",
     validate
-})(MessageForm);
+})(MessageGroupForm);
 
 const mapStateToProps = (state) => {
     return {
@@ -80,6 +92,6 @@ const mapStateToProps = (state) => {
   };
   
 
-const connectedMessageForm = connect(mapStateToProps)(MessageForm);
+const connectedMessageGroupForm = connect(mapStateToProps)(MessageGroupForm);
 
-export { connectedMessageForm as default };
+export { connectedMessageGroupForm as default };

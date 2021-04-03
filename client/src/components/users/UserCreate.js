@@ -3,6 +3,7 @@ import { Button, Modal, Icon } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { createUser } from "../../actions/users";
 import UserForm from './UserForm';
+import '../GlobalStyles.css';
 
 class UserCreate extends React.Component {
    state = { open: false }
@@ -19,21 +20,20 @@ class UserCreate extends React.Component {
     <div>
       <Button
         onClick={() => this.setState({open: true})}
-        icon
       >
-        {/* <Icon name='plus square outline' size="large" /> */}
         Naujas Klientas
       </Button>
 
       <Modal
-      size='small'
+        size='small'
+        className="modalSmall"
         dimmer='blurring'
         open={this.state.open}
         onClose={() => this.setState({open: false})}
         style={{padding: '10px'}}
       >
-        <h3>Naujas Klientas</h3>
-        <UserForm onSubmit={this.onSubmit} />
+        <Modal.Header>Naujas Klientas</Modal.Header>
+        <Modal.Content><UserForm onSubmit={this.onSubmit} /></Modal.Content>
       </Modal>
     </div>
   )

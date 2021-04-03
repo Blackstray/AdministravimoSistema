@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { createMessageGroup } from "../../actions/messageGroups";
-import MessageForm from './MessageForm';
+import MessageGroupForm from './MessageGroupForm';
+import '../GlobalStyles.css';
 
 class MessageGroupCreate extends React.Component {
     state = { open: false }
@@ -22,13 +23,14 @@ class MessageGroupCreate extends React.Component {
                 </Button>
 
                 <Modal
+                    className="modalSmall"
                     dimmer='blurring'
                     open={this.state.open}
                     onClose={() => this.setState({open: false})}
                     style={{padding: '10px'}}
                 >
-                    <h3>Nauja Grupė</h3>
-                    <MessageForm onSubmit={this.onSubmit} />
+                    <Modal.Header>Nauja Grupė</Modal.Header>
+                    <Modal.Content><MessageGroupForm onSubmit={this.onSubmit} /></Modal.Content>
                 </Modal>
             </div>
         );
