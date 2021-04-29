@@ -1,41 +1,36 @@
-import "./UserStyles.css";
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchUsers } from "../../actions/users";
-import { List, Icon, Dropdown, Menu, Search } from "semantic-ui-react";
-import UserMessageSend from "./UserMessageSend";
-import DropdownButton from "../DropdownButton";
-import SearchBar from "../SearchBar";
+import { refreshTokens } from '../../actions/auth';
+import {
+  List,
+  Icon,
+  Dropdown,
+  Search,
+  Grid,
+  Container, 
+  Popup
+} from "semantic-ui-react";
 import UserCreate from "./UserCreate";
 import Header from "../Header";
-import Filter from "../Filter";
+import UserSummary from "./UserSummary";
+import UserEdit from "./UserEdit";
 import "../GlobalStyles.css";
 
-const options = [
-  {
-    key: "subscription",
-    icon: "calendar plus",
-    text: "Pratesti Prenumerata",
-    href: `users/extend/`,
-  },
-  { key: "edit", icon: "edit", text: "Redaguoti", href: `users/edit/` },
-  { key: "delete", icon: "delete", text: "Pašalinti", href: `users/delete/` },
-  {
-    key: "mail",
-    icon: "mail",
-    text: "Siusti Pranesima",
-    href: `users/messagesend/`,
-  },
-];
 class UserList extends React.Component {
-  state = { search: "Vardenis" };
+  state = { search: "", filter: "date" };
+  
   componentDidMount() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    //console.log(user.tokens.refresh.token);
+    var refreshToken = { refreshToken: user.tokens.refresh.token};
+    this.props.refreshTokens(refreshToken);
     this.props.fetchUsers();
   }
 
   componentDidUpdate() {
-    console.log("update");
+    //console.log(this.state.search);
   }
 
   renderCreate() {
@@ -49,9 +44,82 @@ class UserList extends React.Component {
   }
 
   renderDate(user) {
-    var date = new Date(user.subscriptionEnd);
+    var date = new Date(user.subscriptionEnd).toLocaleDateString(); //buvo *1000
 
-    return <div>{new Intl.DateTimeFormat("ko-KR").format(date)}</div>;
+    return <div>{date}</div>;
+  }
+
+  //Apskaiciuoja skirtuma dienomis
+  calculateDifferance(date) {
+    var currentDate = new Date();
+    var diff = Math.floor((date - currentDate) / 86400000);
+    return diff;
+  }
+
+  setColor(user) {
+    var date = new Date(user.subscriptionEnd);
+    var dif = this.calculateDifferance(date);
+    if (dif < 7 && dif > 0) {
+      return "yellow";
+    } else if (dif < 0) {
+      return "red";
+    } else {
+      return "green";
+    }
+  }
+
+  renderSummery(users) {
+    var expiringCount = 0;
+    var expiredCount = 0;
+    var income = 0;
+    var date;
+    var dif;
+    for (var i = 0; i < users.length; i++) {
+      income = income + parseFloat(users[i].price);
+      date = new Date(users[i].subscriptionEnd);
+      dif = this.calculateDifferance(date);
+      if (dif < 7 && dif > 0) {
+        expiringCount = expiringCount + 1;
+      }
+      if (dif < 0) {
+        expiredCount = expiredCount + 1;
+      }
+    }
+    return (
+      <UserSummary
+        count={users.length}
+        income={income.toFixed(2)}
+        expiring={expiringCount}
+        expired={expiredCount}
+      />
+    );
+  }
+
+  sortList(users) {
+    var currentArr = [...users];
+    var newArr;
+    if (this.state.filter === "date") {
+      newArr = users.sort(function (a, b) {
+        return new Date(b.subscriptionEnd) - new Date(a.subscriptionEnd);
+      });
+      if(JSON.stringify(newArr) == JSON.stringify(currentArr)) {
+        return newArr.reverse();
+      } else {
+        return newArr;
+      }
+    }
+    else if (this.state.filter === "price") {
+      newArr = users.sort(function (a, b) {
+        return b.price - a.price;
+      });
+      if(JSON.stringify(newArr) == JSON.stringify(currentArr)) {
+        return newArr.reverse();
+      } else {
+        return newArr;
+      }
+    }
+    else
+    return users;
   }
 
   userOptions(options, userId) {
@@ -63,59 +131,103 @@ class UserList extends React.Component {
     return newOptions;
   }
 
-  renderList() {
-    return this.props.users.map((user) => {
-      //console.log(this.search);
-      //if(user.firstname.includes(this.search))
-      return (
-        <div className="item ui grid list-item" key={user.id}>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>
-                <List.Header>
-                  <Link to={`/users/${user.id}`}>{user.firstname}</Link>
-                </List.Header>
-                <List.Description>{user.lastname}</List.Description>
-              </List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>{user.address}</List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content style={{ wordWrap: "break-word" }}>
-                {user.mac}
-              </List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>{user.subscription}</List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>{user.price} €</List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>{this.renderDate(user)}</List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>{user.comment}</List.Content>
-            </List.Item>
-          </List>
-          <div className="two wide column" size="large">
-            {/* <DropdownButton options={this.userOptions(options, user.id)} /> */}
-            <Menu fluid vertical className="column" size="mini">
-              <Dropdown item icon="cog" text="Veiksmai">
-                <Dropdown.Menu>
+  renderList(users) {
+    return users.map((user) => {
+      if (
+        user.firstname
+          .toLowerCase()
+          .includes(this.state.search.toLowerCase()) ||
+        user.lastname.toLowerCase().includes(this.state.search.toLowerCase()) ||
+        user.mac.toLowerCase().includes(this.state.search.toLowerCase()) ||
+        user.subscription
+          .toLowerCase()
+          .includes(this.state.search.toLowerCase()) ||
+        user.price.toString().includes(this.state.search.toString())
+      )
+        return (
+          <div className="item ui grid list-items alignCenter" key={user.id}>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="left"
+            >
+              <List.Item>
+                <List.Icon
+                  verticalAlign="middle"
+                  className={`circle ${this.setColor(user)}`}
+                />
+                <List.Content>
+                  <List.Header>
+                    <Link to={`/users/${user.id}`}>{user.firstname}</Link>
+                  </List.Header>
+                  <List.Description>{user.lastname}</List.Description>
+                </List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="middle"
+            >
+              <List.Item>
+                <List.Content>{user.address}</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="middle"
+            >
+              <List.Item>
+                <List.Content style={{ wordWrap: "break-word", fontSize: "13px" }}>
+                  {user.mac}
+                </List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="middle"
+            >
+              <List.Item>
+                <List.Content>{user.subscription}</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="middle"
+            >
+              <List.Item>
+                <List.Content>{user.price} €</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="middle"
+            >
+              <List.Item>
+                <List.Content>{this.renderDate(user)}</List.Content>
+              </List.Item>
+            </List>
+            <List
+              className="two wide column"
+              size="large"
+              verticalAlign="middle"
+            >
+              <List.Item>
+                <List.Content>
+                  <Popup
+                  content={user.comment}
+                  trigger={<p className="comment">{user.comment}</p>}
+                  />
+                  </List.Content>
+              </List.Item>
+            </List>
+            <Container className="two wide column" textAlign="center">
+              <Dropdown compact button icon="cog" style={{left:"5px",width: "40px", textAlign: "center"}}>
+                <Dropdown.Menu direction="left">
                   <Dropdown.Item>
                     <Link className="text" to={`/users/extend/${user.id}`}>
                       <Icon name="calendar plus" />
@@ -123,10 +235,7 @@ class UserList extends React.Component {
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
-                    <Link className="text" to={`/users/edit/${user.id}`}>
-                      <Icon name="edit" />
-                      Redaguoti
-                    </Link>
+                    <UserEdit id={user.id} />
                   </Dropdown.Item>
                   <Dropdown.Item>
                     <Link className="text" to={`/users/delete/${user.id}`}>
@@ -142,33 +251,47 @@ class UserList extends React.Component {
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
-            </Menu>
+            </Container>
           </div>
-        </div>
-      );
+        );
     });
   }
 
   render() {
+    const user = JSON.parse(localStorage.getItem("user"));
     if (this.props.isSignedIn == false) {
       window.location.href = "/login";
       return <div></div>;
-    } else
+    } 
+    else if(user.user.role != 'admin') {
+      window.location.href = `/users/${user.user.id}`;
+      return <div></div>;
+    }
+    else
       return (
         <div className="listing text">
-          <Header />
-          <div className="item ui grid" styele={{ paddingTop: "10px" }}>
-            <div>
-              <br />
-              <Search />
-            </div>
-            {/* <Filter /> */}
+          <Header isSignedIn={this.props.isSignedIn}/>
+          <div className="item ui grid" style={{ paddingTop: "10px", width: "80%" }}>
+            <Grid container style={{ height: "60px" }}>
+              <Grid.Column width={12} floated="left" className="alignRight">
+                {this.renderSummery(this.props.users)}
+              </Grid.Column>
+              <Grid.Column width={4} floated="right" verticalAlign="middle">
+                <Search
+                  showNoResults={false}
+                  onSearchChange={(e) =>
+                    this.setState({ search: e.target.value })
+                  }
+                />
+              </Grid.Column>
+            </Grid>
           </div>
-          <div className="item ui grid" style={{ verticalAlign: "middle" }}>
+          <div className="item ui grid alignCenter main-list" style={{ verticalAlign: "middle", width: "80%" }}>
             <List
               className="two wide column important"
               size="large"
-              style={{ paddingTop: "2em" }}
+              style={{ paddingTop: "2em", left:"15px" }}
+              verticalAlign="middle"
             >
               <List.Item>
                 <List.Content>Vardas Pavardė</List.Content>
@@ -178,6 +301,7 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
             >
               <List.Item>
                 <List.Content>Adresas</List.Content>
@@ -187,6 +311,7 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
             >
               <List.Item>
                 <List.Content>MAC</List.Content>
@@ -196,6 +321,7 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
             >
               <List.Item>
                 <List.Content>Prenumerata</List.Content>
@@ -205,8 +331,9 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
             >
-              <List.Item>
+              <List.Item onClick={() => this.setState({ filter: "price" })}>
                 <List.Content>Prenumeratos Mokestis</List.Content>
               </List.Item>
             </List>
@@ -214,8 +341,9 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
             >
-              <List.Item>
+              <List.Item onClick={() => this.setState({ filter: "date" })}>
                 <List.Content>Prenumerata Baigsis</List.Content>
               </List.Item>
             </List>
@@ -223,6 +351,7 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
             >
               <List.Item>
                 <List.Content>Komentaras</List.Content>
@@ -232,13 +361,17 @@ class UserList extends React.Component {
               className="two wide column important"
               size="large"
               style={{ paddingTop: "1em" }}
+              verticalAlign="middle"
+              style={{margin: "auto", textAlign: "center"}}
             >
               <List.Item>
                 <List.Content>{this.renderCreate()}</List.Content>
               </List.Item>
             </List>
           </div>
-          <div className="ui celled list">{this.renderList()}</div>
+          <div className="ui celled list list-scroll main-list" style={{ verticalAlign: "middle", width: "80%", align: "middle" }}>
+            {this.renderList(this.sortList(this.props.users))}
+          </div>
         </div>
       );
   }
@@ -252,4 +385,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { fetchUsers })(UserList);
+export default connect(mapStateToProps, { fetchUsers, refreshTokens })(UserList);

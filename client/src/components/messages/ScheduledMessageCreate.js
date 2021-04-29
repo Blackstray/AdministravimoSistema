@@ -16,9 +16,10 @@ class ScheduledMessageCreate extends React.Component {
         return (
             <div>
                 <Button
+                    circular
+                    icon={"plus"}
                     onClick={() => this.setState({open: true})}
                 >
-                    Suplanuoti pranešimą
                 </Button>
 
                 <Modal

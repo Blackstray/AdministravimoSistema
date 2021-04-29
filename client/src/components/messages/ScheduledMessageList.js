@@ -2,7 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchScheduledMessages } from "../../actions/scheduledMessages";
 import ScheduledMessageCreate from "./ScheduledMessageCreate";
-import { Button, List } from "semantic-ui-react";
+import ScheduledMessageEdit from "./ScheduledMessageEdit";
+import { Button, List, Icon } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import "../GlobalStyles.css";
 
 class ScheduledMessageList extends React.Component {
@@ -10,55 +12,44 @@ class ScheduledMessageList extends React.Component {
     this.props.fetchScheduledMessages();
   }
 
-  componentDidUpdate() {
-    console.log("update");
-  }
-
   renderDate(scheduledMessage) {
-    var date = new Date(scheduledMessage.senddate);
+    var date = new Date(scheduledMessage.senddate).toLocaleDateString();
 
-    return <div>{new Intl.DateTimeFormat("ko-KR").format(date)}</div>;
+    return <div>{date}</div>;
   }
 
   renderList() {
     return this.props.scheduledMessages.map((scheduledMessage) => {
       return (
         <div className="item ui grid list-item" key={scheduledMessage.id}>
-          {/* <div className="three wide column">{scheduledMessage.groupname}</div>
-                    <div className="three wide column">{this.renderDate(scheduledMessage)}</div>
-                    <div className="two wide column">Siusti Pranešimą</div>
-                    <div className="two wide column">Redaguoti</div>
-                    <div className="two wide column">Išrinti</div> */}
-          <List className="three wide column" size="large">
+          <List className="three wide column alignCenter" size="large">
             <List.Item>
               <List.Content>
                 <List.Header as="a">{scheduledMessage.groupname}</List.Header>
               </List.Content>
             </List.Item>
           </List>
-          <List className="three wide column" size="large">
+          <List className="five wide column alignCenter" size="large">
             <List.Item>
               <List.Content>{this.renderDate(scheduledMessage)}</List.Content>
             </List.Item>
           </List>
-          <List className="two wide column" size="large">
+          <List className="four wide column alignCenter">
             <List.Item>
               <List.Content>
-                <Button>Siusti Pranešimą</Button>
+                <ScheduledMessageEdit id={scheduledMessage.id}/>
               </List.Content>
             </List.Item>
           </List>
-          <List className="two wide column" size="large">
+          <List className="three wide column alignCenter">
             <List.Item>
               <List.Content>
-                <Button>Redaguoti</Button>
-              </List.Content>
-            </List.Item>
-          </List>
-          <List className="two wide column" size="large">
-            <List.Item>
-              <List.Content>
-                <Button>Ištrinti</Button>
+                <Button compact circular>
+                <Link style={{display: 'flex'}} to={`/messages/deleteScheduled/${scheduledMessage.id}`} className="text">
+                    {/* <Icon name='edit' /> */}
+                    Ištrinti
+                  </Link>
+                </Button>
               </List.Content>
             </List.Item>
           </List>
@@ -75,23 +66,24 @@ class ScheduledMessageList extends React.Component {
           <List
             className="three wide column important"
             size="large"
-            style={{ paddingTop: "2em" }}
+            verticalAlign="middle"
+            style={{ paddingTop: "2em", textAlign: "center" }}
           >
             <List.Item>
               <List.Content>Grupės Pavadinimas</List.Content>
             </List.Item>
           </List>
-          <List className="five wide column important" size="large">
+          <List className="five wide column important alignCenter" size="large" verticalAlign="middle">
             <List.Item>
               <List.Content>Siuntimo data</List.Content>
             </List.Item>
           </List>
-          <List className="five wide column important" size="large">
+          <List className="four wide column important alignCenter" size="large" verticalAlign="middle">
             <List.Item>
               <List.Content>Veiksmai</List.Content>
             </List.Item>
           </List>
-          <List className="three wide column" size="large">
+          <List className="four wide column alignCenter" size="large" verticalAlign="middle">
             <List.Item>
               <List.Content>
                 <ScheduledMessageCreate />
@@ -99,7 +91,7 @@ class ScheduledMessageList extends React.Component {
             </List.Item>
           </List>
         </div>
-        <div className="ui celled list">{this.renderList()}</div>
+        <div className="ui celled list list-scroll">{this.renderList()}</div>
       </div>
     );
   }

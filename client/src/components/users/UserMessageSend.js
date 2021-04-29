@@ -1,48 +1,56 @@
-import "./UserStyles.css";
 import React from "react";
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import history from "../../history";
 import Modal from "../Modal";
 import { fetchUser } from "../../actions/users";
-import { Form, Input, TextArea } from 'semantic-ui-react'
+import { sendEmail } from "../../actions/auth";
+import { Form, Input, TextArea, Button } from 'semantic-ui-react'
 
 class UserMessageSend extends React.Component {
+    state = { content: "", subject: "" }
     componentDidMount() {
         this.props.fetchUser(this.props.match.params.id);
     }
 
-    renderActions() {
-        return (
-        <React.Fragment>
-            {/* <form method="post">
-            Content: <input type="text" name="content" />
-            
-            
-            </form> */}
-            <button className="ui button negative">
-                Send
-            </button>
-            <Link to={'/'} className="ui button">
-                Cancel
-            </Link>
-        </React.Fragment>   
-        )
+    onFieldChange = (e, { name, value }) => {
+        this.setState({ [name]: value})
+      }
+
+    onSubmit(id) {
+        //console.log(this.props);
+        var formValues = {
+            to: this.props.user[id].email,
+            subject: this.state.subject,
+            content: this.state.content
+        }
+        //console.log(formValues);
+        this.props.sendEmail(formValues);
     }
 
-    renderContent() {
+    renderContent(id) {
         if(!this.props.match.params.id){
-            return <div>Loading...</div>;
+            return <div>Kraunam...</div>;
         }
         return (
-            <Form>
-                <Form.Field
-                        id='content'
-                        control={TextArea}
+            <Form onSubmit={() => this.onSubmit(id)}>
+                <Form.Input
+                        name='subject'
+                        label='Tema'
+                        placeholder='Tema'
+                        required
+                        onChange={this.onFieldChange}
+                    />
+                <Form.TextArea
+                        name='content'
                         label='Turinys'
                         placeholder='Turinys'
                         required
+                        onChange={this.onFieldChange}
                     />
+                <Form.Field>
+                    <Button type="submit">Siusti</Button>
+                </Form.Field>
             </Form>
         );
     }
@@ -50,9 +58,8 @@ class UserMessageSend extends React.Component {
   render() {
     return (
       <Modal
-      title="Send Message"
-      content={this.renderContent()}
-      actions={this.renderActions()}
+      title="Siusti Pranešimą"
+      content={this.renderContent(this.props.match.params.id, this.props.user)}
       onDismiss={() => history.push("/")}
       />
     );
@@ -60,7 +67,7 @@ class UserMessageSend extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return { user: state.users[ownProps.match.params.id] }
+    return { user: state.users };
 };
 
-export default connect(mapStateToProps, { fetchUser })(UserMessageSend);
+export default connect(mapStateToProps, { fetchUser, sendEmail })(UserMessageSend);

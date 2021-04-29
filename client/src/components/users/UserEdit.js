@@ -1,45 +1,46 @@
 import _ from 'lodash';
 import React from "react";
-import { Modal } from "semantic-ui-react";
+import { Modal, Dropdown, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { fetchUser, editUser } from "../../actions/users";
 import UserForm from "./UserForm";
+import '../GlobalStyles.css';
 
 class UserEdit extends React.Component {
-  state = { open: true }
-  componentDidMount() {
-    this.props.fetchUser(this.props.match.params.id);
+  state = { open: false }
+
+  fetchUser() {
+    this.props.fetchUser(this.props.id);
   }
 
   onSubmit = (formValues) => {
-    this.props.editUser(this.props.match.params.id, formValues);
+    console.log(formValues);
+    this.props.editUser(this.props.id, formValues);
   };
 
   render() {
-    // if (!this.props.user) {
-    //   return <div>Loading</div>;
-    // }
+    if (!this.props.user) {
+      return <div>Loading</div>;
+    }
     return (
-      //<div>
-      // <h3>Edit a User</h3>
-      //   <UserForm initialValues={_.pick(this.props.user, 'title', 'description')}
-      // onSubmit={this.onSubmit} />
-      // </div>
       <div>
-      {/* <Button
-        onClick={() => this.setState({open: true})}
+      <Dropdown.Item
+        onClick={() => { this.setState({open: true}); this.fetchUser(); }}
       >
-        Naujas Klientas
-      </Button> */}
+        <Icon name="edit" />
+        Redaguoti
+      </Dropdown.Item>
 
       <Modal
+        size='small'
+        className="modalSmall"
         dimmer='blurring'
         open={this.state.open}
         onClose={() => this.setState({open: false})}
         style={{padding: '10px'}}
       >
         <h3>Redaguoti klientą</h3>
-        <UserForm initialValues={_.pick(this.props.user, 'firstname', 'lastname', "address", "mac", "subscription", "price", "comment")} onSubmit={this.onSubmit} />
+        <UserForm initialValues={_.pick(this.props.user, 'firstname', 'lastname', 'email', "address", "mac", "subscription", "price", "comment")} onSubmit={this.onSubmit} />
       </Modal>
     </div>
     );
@@ -47,7 +48,7 @@ class UserEdit extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { user: state.users[ownProps.match.params.id] };
+  return { user: state.users[ownProps.id] };
 };
 
 export default connect(mapStateToProps, { fetchUser, editUser })(UserEdit);

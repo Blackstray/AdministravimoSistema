@@ -10,20 +10,22 @@ import '../GlobalStyles.css';
 class UserExtendSubscription extends React.Component {
     state = { date: null }
 
-    onSubmit = (params, date) => {
-        console.log(date);
-        this.props.editUser(params.id)
+    onSubmit = (params) => {
+      var object = {subscriptionEnd: this.state.date};
+        console.log(object);
+        this.props.editUser(params.id, object)
     }
     
     onChange = (data) => {
-        this.setState({ date: data.value })
+      this.setState({ date: data.value.getTime() })
+      console.log(this.state.date);
     }
     
 
     renderActions() {
         return (
           <React.Fragment>
-            <Link to={'/'} onClick={() => this.onSubmit(this.props.match.params, this.date)} className="ui button negative">
+            <Link to={'/'} onClick={() => this.onSubmit(this.props.match.params)} className="ui button negative">
               Patvirtinti
             </Link>
             <Link to={'/'} className="ui button">
@@ -33,13 +35,14 @@ class UserExtendSubscription extends React.Component {
         );
     }
     renderContent() {
-        return <SemanticDatepicker id="senddate" name="senddate" label="Siuntimo Data" autoComplete="off" onChange={this.onChange} />;
+        return <SemanticDatepicker format="DD-MM-YYYY" id="senddate" name="senddate" label="Siuntimo Data" autoComplete="off" onChange={(e, data) => this.onChange(data)} />;
     }
 
     render() {
         return (
             <div className='modalSmall' style={{ maxWidth: '150px'}}>
             <Modal
+            dimmer='blurring'
             title="Pratesti Prenumerata"
             content={this.renderContent()}
             actions={this.renderActions()}

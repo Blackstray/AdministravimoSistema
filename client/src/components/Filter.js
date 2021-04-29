@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
-import "./GlobalStyles.css"
+import { Button, Dropdown } from "semantic-ui-react";
+import "./GlobalStyles.css";
 
-function Filter() {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <div classname="filter">
-        <button onclick={() => setIsOpen(!isOpen)} className="filter_button"></button>
-        </div>
-    )
+const Filter = () => {
+ // Declaring a new state variable named "isOpen"
+ const [isOpen, setIsOpen] = useState(false);
+ 
+ return (
+   <div className="filter_wrapper" >
+     <Button
+       onClick={() => setIsOpen(!isOpen)}
+       className="filter_button"
+     >
+       Prenumeratu tipai
+     </Button >
+   </div >
+ );
 }
 
 export default Filter;

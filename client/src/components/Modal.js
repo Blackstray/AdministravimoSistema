@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import "./GlobalStyles.css";
 
 const Modal = props => {
     return ReactDOM.createPortal(
         <div className="ui dimmer modals visible active" onClick={props.onDismiss}> 
-            <div onClick={(e) => e.stopPropagation()} className="ui standart modal visible active">
+            <div onClick={(e) => e.stopPropagation()} className="ui standart modal visible active small">
                 <div className="header">{props.title}</div>
                 <div className="content">
                     {props.content}

@@ -28,7 +28,7 @@ class MessageGroupDelete extends React.Component {
           return 'Ar tikrai norite ištrinti šia grupę?';
       }
 
-      return `Ar tikrai norite ištrinti grupę vardu: ${this.props.messageGroup.firstname}?`;
+      return `Ar tikrai norite ištrinti grupę vardu: "${this.props.messageGroup.name}?"`;
   }
 
   render() {

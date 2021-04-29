@@ -1,100 +1,117 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { Form, Input, Button, TextArea } from 'semantic-ui-react';
+import history from "../../history";
+import "../GlobalStyles.css";
 
 class UserForm extends React.Component {
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return (
-        <div className="ui error message">
-          <div className="header">{error}</div>
-        </div>
-      );
+  state = { firstname: "", lastname: "", email: "", address: "", mac: "", comment: "", subscription: "", price: "" }
+
+  componentDidMount() {
+    if(this.props.initialValues != null){
+      this.setState({firstname: this.props.initialValues.firstname, 
+        lastname: this.props.initialValues.lastname, 
+        email: this.props.initialValues.email,
+        address: this.props.initialValues.address, 
+        mac: this.props.initialValues.mac, 
+        comment: this.props.initialValues.comment, 
+        subscription: this.props.initialValues.subscription, 
+        price: this.props.initialValues.price})
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
-    const className = `field ${meta.error && meta.touched ? "error" : ""}`;
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <input {...input} autoComplete="off" />
-        {this.renderError(meta)}
-      </div>
-    );
-  };
-
-  onSubmit = (formValues) => {
+  onSubmit = () => {
+    var formValues = { firstname:this.state.firstname, lastname:this.state.lastname,
+    email:this.state.email, address:this.state.address, mac:this.state.mac, comment:this.state.comment,
+    subscription:this.state.subscription, price:this.state.price};
+    //console.log(formValues);
     this.props.onSubmit(formValues);
-  };
+  }
+
+  onFieldChange = (e, { name, value }) => {
+    this.setState({ [name]: value})
+  }
 
   render() {
+    const { firstname, lastname, email, address, mac, comment, subscription, price } = this.state;
+    //this.setState({firstname: this.props.initialValues.firstname});
+    //{this.props.handleSubmit(this.onSubmit)}
     return (
-      // <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="ui form error">
-      //   <Field name="firstname" component={this.renderInput} label="Vardas"/>
-      //   <Field name="lastname" component={this.renderInput} label="Pavarde" />
-      //   <Field name="address" component={this.renderInput} label="Adresas" />
-      //   <Field name="comment" component={this.renderInput} label="Komentaras" />
-      //   <Field name="mac" component={this.renderInput} label="MAC adresas" />
-      //   <Field name="subscription" component={this.renderInput} label="Prenumerata" />
-      //   <Field name="price" component={this.renderInput} label="Kaina" />
-      //   <button className="ui button primary">Submit</button>
-      // </form>
       <Form size="small" onSubmit={this.props.handleSubmit(this.onSubmit)}>
         <Form.Group>
-          <Form.Field
-            id="firstname"
-            control={Input}
+          <Form.Input
             label="Vardas"
+            name='firstname'
             placeholder="Vardenis"
+            value={firstname}
             required
+            onChange={this.onFieldChange}
           />
-          <Form.Field
-            id="lastname"
-            control={Input}
-            label="Pavardė"
+          <Form.Input
+            label="Pavarde"
+            name='lastname'
             placeholder="Pavardenis"
+            value={lastname}
             required
+            onChange={this.onFieldChange}
           />
-          <Form.Field
-            id="address"
-            control={Input}
-            label="Adresas"
-            placeholder="Gatvė"
+          <Form.Input
+            label="Paštas"
+            name='email'
+            placeholder="vardenis@paštas.com"
+            value={email}
             required
+            onChange={this.onFieldChange}
           />
         </Form.Group>
         <Form.Group>
-        <Form.Field
-          id="mac"
-          control={Input}
+        <Form.Input
+            label="Addresas"
+            name='address'
+            placeholder="Gatve"
+            value={address}
+            required
+            onChange={this.onFieldChange}
+          />
+        <Form.Input
           label="MAC"
+          name='mac'
           placeholder="XX:XX:XX:XX"
+          value={mac}
           required
+          onChange={this.onFieldChange}
         />
-        <Form.Field
-          id="subscription"
-          control={Input}
+        <Form.Field width={6}>
+        <Form.Input
           label="Prenumerata"
-          placeholder="Prenumerata"
+          name='subscription'
+          placeholder="viasat"
+          value={subscription}
           required
+          onChange={this.onFieldChange}
         />
-        <Form.Field
-          id="price"
-          control={Input}
-          label="Kaina"
-          placeholder="00.00"
-          required
-        />
+        </Form.Field>
+        <Form.Field width={6}>
+          <Form.Input
+            label="Kaina"
+            name='price'
+            placeholder="00.00"
+            value={price}
+            required
+            onChange={this.onFieldChange}
+          />
+        </Form.Field>
         </Form.Group>
-        <Form.Field
-          id="comment"
-          control={TextArea}
+        <Form.TextArea
           label="Komentaras"
+          name='comment'
           placeholder=""
+          value={comment}
           required
+          onChange={this.onFieldChange}
         />
-        <Form.Field id="" control={Button} content="Patvirtinti" />
+        <Button content="Patvirtinti" onClick={() => history.push("/")}/>
+        {/* <Form.Field control={Button} content="Patvirtinti" onClick={() => history.push("/")} /> */}
       </Form>
     );
   }

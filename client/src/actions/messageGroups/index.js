@@ -18,7 +18,7 @@ export const createMessageGroup = formValues => async dispatch => {
 export const fetchMessageGroups = () => async dispatch => {
     const response = await messageGroups.get('/messageGroups');
 
-    dispatch({ type: FETCH_MESSAGEGROUPS, payload: response.data });
+    dispatch({ type: FETCH_MESSAGEGROUPS, payload: response.data.results });
 };
 
 export const fetchMessageGroup = (id) => async dispatch => {

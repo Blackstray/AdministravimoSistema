@@ -1,6 +1,5 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
-import { connect } from "react-redux";
 import UserCreate from "./users/UserCreate";
 import UserEdit from "./users/UserEdit";
 import UserDelete from "./users/UserDelete";
@@ -8,15 +7,16 @@ import UserShow from "./users/UserShow";
 import UserList from "./users/UserList";
 import MessagesPage from './messages/MessagesPage';
 import MessageGroupDelete from './messages/MessageGroupDelete';
+import ScheduledMessageDelete from './messages/ScheduledMessageDelete';
 import history from "../history";
 import UserMessageSend from "./users/UserMessageSend";
 import UserExtendSubscription from "./users/UserExtendSubscription";
 import Login from './Login';
 import './GlobalStyles.css';
 
-const App = (props) => {
+const App = () => {
   return (
-    <div className="ui container">
+    <div className="ui container" style={{ width: "100%"}}>
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={UserList} />
@@ -28,17 +28,12 @@ const App = (props) => {
           <Route path="/users/extend/:id" exact component={UserExtendSubscription} />
           <Route path="/login" exact component={Login} />
           <Route path="/messages" exact component={MessagesPage} />
-          <Route path="/messages/delete/:id" exact component={MessageGroupDelete}/>
+          <Route path="/messages/deleteGroup/:id" exact component={MessageGroupDelete}/>
+          <Route path="/messages/deleteScheduled/:id" exact component={ScheduledMessageDelete}/>
         </Switch>
       </Router>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    isSignedIn: state.auth.isSignedIn,  
-  }; 
-};
-
-export default connect(mapStateToProps)(App);
+export default App;

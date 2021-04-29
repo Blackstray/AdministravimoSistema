@@ -1,5 +1,6 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
+import { Link } from "react-router-dom";
 import GoogleAuth from './GoogleAuth';
 import './GlobalStyles.css';
 import {
@@ -13,63 +14,39 @@ import {
 
 
 class LoginForm extends React.Component {
-  renderError({ error, touched }) {
-    if (touched && error) {
-      return (
-        <div className="ui error message">
-          <div className="header">{error}</div>
-        </div>
-      );
-    }
-  }
+  state = { email: "", password: "" };
 
-  renderInput = ({ input, label, meta }) => {
-    const className = `field ${meta.error && meta.touched ? "error" : ""}`;
-    return (
-      <div className={className}>
-        <label>{label}</label>
-        <input {...input} autoComplete="off" />
-        {this.renderError(meta)}
-      </div>
-    );
-  };
-
-  onSubmit = (formValues) => {
-
+  onSubmit = () => {
+    const formValues = { email:this.state.email, password: this.state.password };
     this.props.onSubmit(formValues);
   };
 
+  onFieldChange = (e, { name, value }) => {
+    this.setState({ [name]: value})
+  }
+
   render() {
+    if (this.props.isSignedIn == true) {
+      window.location.href = "/";
+      return <div></div>;
+    } else
     return (
       <div className="ui middle aligned center aligned grid">
-      {/* <form onSubmit={this.onSubmit} className="ui form error">
-        <Field
-          name="username"
-          component={this.renderInput}
-          label="Vartotojo Vardas"
-        />
-        <Field
-          name="password"
-          component={this.renderInput}
-          label="Slaptaždis"
-        />
-        <div className="ui secondary pointing menu btn">
-            <button className="ui button primary wide">Prisijungti</button>
-        </div>
-      </form> */}
-      <Grid textAlign="center" verticalAlign="middle">
+      <Grid  className="login" textAlign="center" verticalAlign="middle">
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
               {/* <img src="/static/images/logo.png" alt="logo" className="image" />{" "} */}
               Administravimo Sistema
             </Header>
-            <Form size="large">
+            <Form size="large" onSubmit={this.props.handleSubmit(this.onSubmit)}>
               <Segment stacked>
-                {/* <Form.Input
+                <Form.Input
                   fluid
                   icon="user"
                   iconPosition="left"
                   placeholder="Paštas"
+                  name="email"
+                  onChange={this.onFieldChange}
                 />
                 <Form.Input
                   fluid
@@ -77,12 +54,14 @@ class LoginForm extends React.Component {
                   iconPosition="left"
                   placeholder="Slaptaždis"
                   type="password"
+                  name="password"
+                  onChange={this.onFieldChange}
                 />
                 <Button color="teal" fluid size="large">
-                  Prisijungti
+                    Prisijungti
                 </Button>
-                <br /> */}
-                <GoogleAuth className="wide" name="Prisijungti su Google"/>
+                <br />
+                {/* <GoogleAuth className="wide" name="Prisijungti su Google"/> */}
               </Segment>
             </Form>
           </Grid.Column>
@@ -93,20 +72,6 @@ class LoginForm extends React.Component {
   }
 }
 
-const validate = (formValues) => {
-  const errors = {};
-  if (!formValues.title) {
-    errors.title = "You must enter a title";
-  }
-
-  if (!formValues.description) {
-    errors.description = "You must enter a description";
-  }
-
-  return errors;
-};
-
 export default reduxForm({
   form: "loginForm",
-  validate,
 })(LoginForm);

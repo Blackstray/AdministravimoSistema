@@ -9,19 +9,21 @@ class UserCreate extends React.Component {
    state = { open: false }
 
   onSubmit = (formValues) => {
-    formValues.username = Math.random().toString(16).substr(2, 8);
+    formValues.userName = Math.random().toString(16).substr(2, 8);
     formValues.password = Math.random().toString(16).substr(2, 8);
+    formValues.role = "user";
     formValues.subscriptionEnd = Date.now();
-    console.log(formValues);
+    console.log(formValues.password);
     this.props.createUser(formValues);
   };
   render() {
   return (
     <div>
       <Button
+        circular
+        icon={"plus"}
         onClick={() => this.setState({open: true})}
       >
-        Naujas Klientas
       </Button>
 
       <Modal
@@ -30,6 +32,7 @@ class UserCreate extends React.Component {
         dimmer='blurring'
         open={this.state.open}
         onClose={() => this.setState({open: false})}
+
         style={{padding: '10px'}}
       >
         <Modal.Header>Naujas Klientas</Modal.Header>
