@@ -4,8 +4,11 @@ import { Modal, Dropdown, Icon } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { fetchUser, editUser } from "../../actions/users";
 import UserForm from "./UserForm";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import '../GlobalStyles.css';
 
+toast.configure()
 class UserEdit extends React.Component {
   state = { open: false }
 
@@ -14,8 +17,9 @@ class UserEdit extends React.Component {
   }
 
   onSubmit = (formValues) => {
-    console.log(formValues);
     this.props.editUser(this.props.id, formValues);
+    this.setState({open: false});
+    toast.success(`Vartotojas ${formValues.firstname} atnaujintas`);
   };
 
   render() {

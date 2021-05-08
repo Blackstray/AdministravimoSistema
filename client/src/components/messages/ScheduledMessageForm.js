@@ -1,11 +1,10 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
 import { Form, Input, Button, TextArea, Dropdown } from "semantic-ui-react";
 import { connect } from "react-redux";
 import SemanticDatepicker from "react-semantic-ui-datepickers";
 
 class ScheduledMessageForm extends React.Component {
-  //state = { currentDate: 112 };
   state = { groupname: "", subject: "", content: "", senddate: "" };
 
   componentDidMount() {
@@ -75,7 +74,7 @@ class ScheduledMessageForm extends React.Component {
           name="subject"
           control={Input}
           label="Tema"
-          placeholder="Turinys"
+          placeholder="Tema"
           required
           value={subject}
           onChange={this.onFieldChange}
@@ -85,7 +84,6 @@ class ScheduledMessageForm extends React.Component {
           control={TextArea}
           label="Turinys"
           placeholder="Turinys"
-          required
           value={content}
           onChange={this.onFieldChange}
         />

@@ -86,6 +86,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-font-smoothing: grayscale;
     overflow: hidden;
+    font-family: Lato;
 }
 
 .login {
@@ -108,6 +109,7 @@ body {
 .list {
     overflow:auto;
     overflow-x: hidden;
+    border-radius: 25px;
 }
 
 .list-scroll {
@@ -142,11 +144,17 @@ body {
 
 .nav {
     overflow: hidden;
-    background-color: black;
+    background-color: #454545 !important;
+    font-family: Lato !important;
 }
 
 .main-list {
     background-color: white;
     margin-left: auto;
     margin-right: auto;
+}
+
+.topRounded {
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
 }

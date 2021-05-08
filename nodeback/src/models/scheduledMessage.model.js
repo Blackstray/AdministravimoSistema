@@ -3,10 +3,22 @@ const { toJSON, paginate } = require('./plugins');
 
 const scheduledMessageSchema = mongoose.Schema(
     {
-      groupname: String,
-      subject: String,
-      content: String,
-      senddate: Date,
+      groupname: {
+        type: String,
+        required: true,
+      },
+      subject: {
+        type: String,
+        required: true,
+      },
+      content: {
+        type: String,
+        required: true,
+      },
+      senddate: {
+        type: Date,
+        required: true,
+      },
     },
     { timestamps: true }
 );

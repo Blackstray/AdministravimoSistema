@@ -7,7 +7,6 @@ import MessageGroupSendMessage from "./MessageGroupSendMessage";
 import { Link } from "react-router-dom";
 import { Button, List, Popup } from "semantic-ui-react";
 import "../GlobalStyles.css";
-import messageGroups from "../../apis/messageGroups";
 
 class MessageGroupList extends React.Component {
   componentDidMount() {

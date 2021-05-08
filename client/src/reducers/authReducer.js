@@ -7,14 +7,6 @@ const INITIAL_STATE = user ? { isSignedIn: true, user, tokens: user.tokens } : {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        // case SIGN_IN:
-        //     return {...state, isSignedIn: true, userId: action.payload };
-        // case SIGN_OUT:
-        //     return {...state, isSignedIn: false, userId: null };
-        // case LOGIN:
-        //     return {...state, isSignedIn: true, user: action.payload.user, tokens: action.payload.tokens };
-        // case LOGOUT:
-        //     return {...state, isSignedIn: false, user: null };
         case LOGIN_SUCCESS:
         return {
             ...state,

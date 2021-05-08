@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Button, Dropdown } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import "./GlobalStyles.css";
 
 const Filter = () => {
- // Declaring a new state variable named "isOpen"
  const [isOpen, setIsOpen] = useState(false);
  
  return (

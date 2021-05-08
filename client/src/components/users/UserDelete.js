@@ -4,16 +4,24 @@ import { Link } from 'react-router-dom';
 import Modal from "../Modal";
 import history from "../../history";
 import { fetchUser, deleteUser } from "../../actions/users";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
+toast.configure()
 class UserDelete extends React.Component {
   componentDidMount() {
     this.props.fetchUser(this.props.match.params.id);
   }
 
+  handleAction = () => {
+    this.props.deleteUser(this.props.match.params.id)
+    toast.success(`Vartotojas ${this.props.user.firstname} Ištrintas`);
+  }
+
   renderActions() {
     return (
       <React.Fragment>
-        <Link to={'/'} onClick={() => this.props.deleteUser(this.props.match.params.id)} className="ui button negative">
+        <Link to={'/'} onClick={() => this.handleAction()} className="ui button negative">
           Ištrinti
         </Link>
         <Link to={'/'} className="ui button">

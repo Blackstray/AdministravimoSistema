@@ -31,7 +31,6 @@ export const editMessageGroup = (id, formValues) => async dispatch => {
     const response = await messageGroups.patch(`/messageGroups/${id}`, formValues);
 
     dispatch({ type: EDIT_MESSAGEGROUP, payload: response.data });
-    //Here we do programatic navigation
     history.push('/messages');
 };
 

@@ -1,8 +1,6 @@
 const nodemailer = require('nodemailer');
 const config = require('../config/config');
 const logger = require('../config/logger');
-const { messageGroupService } = require('./');
-const { ScheduledMessage } = require('../models');
 
 const transport = nodemailer.createTransport(config.email.smtp);
 /* istanbul ignore next */
@@ -56,18 +54,6 @@ To verify your email, click on this link: ${verificationEmailUrl}
 If you did not create an account, then ignore this email.`;
   await sendEmail(to, subject, text);
 };
-
-// const sendScheduledMessages = async () => {
-//   console.log("email service");
-//   const scheduledMessages = ScheduledMessage.find({});
-//   const currentDate = new Date().now;
-//   for(var i = 0; i < scheduledMessages.length; i++) {
-//     //first check if it's time to send the messages
-//     if(scheduledMessages[i].senddate < currentDate) {
-//       console.log("Time to send messages");
-//     }
-//   }
-// }
 
 module.exports = {
   transport,

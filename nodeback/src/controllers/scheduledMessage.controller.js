@@ -37,7 +37,7 @@ const deleteScheduledMessage = catchAsync(async (req, res) => {
 const sendScheduledMessages = async (req, res) => {
     await emailService.sendEmail();
     res.status(httpStatus.NO_CONTENT).send();
-  };
+};
 
 module.exports = {
     createScheduledMessage,

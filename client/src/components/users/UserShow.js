@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../actions/auth";
 import { fetchUser, editUser } from "../../actions/users";
-import { Grid, Image, Menu, Dropdown, Form } from "semantic-ui-react";
+import { Grid, Image, Menu, Dropdown, Form, Icon } from "semantic-ui-react";
 import Header from "../Header";
 import UserProfileForm from "./UserProfileForm";
 import PaypalExpressBtn from "react-paypal-express-checkout";
 import "../GlobalStyles.css";
 
-export class UserShow extends React.Component {
+class UserShow extends React.Component {
   state = { activeItem: "Mano Informacija", time: 1 };
 
   componentDidMount() {
@@ -27,39 +27,73 @@ export class UserShow extends React.Component {
       lastname,
       address,
       mac,
+      email,
       subscription,
       price,
       comment,
-      username,
+      userName,
       subscriptionEnd,
     } = this.props.user;
     return (
       <div className="ui middle aligned center aligned grid">
-        <Grid>
+        <Grid style={{ maxWidth: "1000px" }}>
           <Grid.Row>
+            <h2>Informacija apie vartotoją</h2>
+          </Grid.Row>
+          <Grid.Row centered>
             <Grid.Column width={3}>
               <h4>Vardas:</h4>
-              <h4>Adresas:</h4>
-              <h4>MAC:</h4>
-              <h4>Komentaras:</h4>
-            </Grid.Column>
-            <Grid.Column width={6}>
-              <h4>
-                {firstname} {lastname}
-              </h4>
-              <h4>{address}</h4>
-              <h4>{mac}</h4>
-              <h4>{comment}</h4>
             </Grid.Column>
             <Grid.Column width={3}>
-              <h4>Slapyvardis:</h4>
-              <h4>Prenumeratos Tipas:</h4>
+              <h4>{firstname}</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>Prenumerata:</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>{subscription}</h4>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row centered>
+            <Grid.Column width={3}>
+              <h4>Pavardė:</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>{lastname}</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
               <h4>Kaina:</h4>
             </Grid.Column>
-            <Grid.Column width={4}>
-              <h4>{username}</h4>
-              <h4>{subscription}</h4>
-              <h4>{price} €</h4>
+            <Grid.Column width={3}>
+              <h4>{price}€</h4>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row centered>
+            <Grid.Column width={3}>
+              <h4>Adresas:</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>{address}</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>MAC:</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>{mac}</h4>
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row centered>
+            <Grid.Column width={3}>
+              <h4>Paštas:</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>{email}</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>Prenumeratos pabaiga</h4>
+            </Grid.Column>
+            <Grid.Column width={3}>
+              <h4>{new Date(subscriptionEnd).toLocaleDateString()}</h4>
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -90,29 +124,41 @@ export class UserShow extends React.Component {
       { key: 12, text: "12", value: 12 },
     ];
     return (
-      <Form className="alignCenter">
-        <Form.Field required width={4}>
-          <label>Kiek laiko norite pratesti prenumeratą?</label>
-          <Dropdown
-            name="time"
-            options={options}
-            selection
-            fluid
-            onChange={(e, data) =>
-              this.setState({ time: parseFloat(data.value) * total }),
-              console.log(this.state.time)
-            }
-          />
-        </Form.Field>
-        <Form.Field width={4}>
-          <h4>Prašome pasirinkti atsiskaitymo būdą</h4>
-          <PaypalExpressBtn
-            client={client}
-            currency={"EUR"}
-            total={this.state.time}
-          />
-        </Form.Field>
-      </Form>
+      <div className="ui middle aligned center aligned grid">
+        <Grid style={{ maxWidth: "1000px" }}>
+          <Grid.Row>
+            <h2>Prasitesti prenumeratą</h2>
+          </Grid.Row>
+          <Grid.Row centered>
+            <Form>
+              <Form.Group>
+                <Form.Field required width={12}>
+                  <label>Kiek laiko norite pratesti prenumeratą?</label>
+                  <Dropdown
+                    name="time"
+                    options={options}
+                    selection
+                    fluid
+                    onChange={
+                      ((e, data) =>
+                        this.setState({ time: parseFloat(data.value) * total }),
+                      console.log(this.state.time))
+                    }
+                  />
+                </Form.Field>
+                <Form.Field width={14}>
+                  <h4>Prašome pasirinkti atsiskaitymo būdą</h4>
+                  <PaypalExpressBtn
+                    client={client}
+                    currency={"EUR"}
+                    total={this.state.time}
+                  />
+                </Form.Field>
+              </Form.Group>
+            </Form>
+          </Grid.Row>
+        </Grid>
+      </div>
     );
   }
 
@@ -128,19 +174,27 @@ export class UserShow extends React.Component {
   renderEdit() {
     return (
       <div className="alignCenter">
-        <UserProfileForm
-          initialValues={_.pick(
-            this.props.user,
-            "firstname",
-            "lastname",
-            "address",
-            "mac",
-            "subscription",
-            "price",
-            "comment"
-          )}
-          onSubmit={this.onSubmit}
-        />
+        <Grid>
+          <Grid.Row>
+            <h2>Redaguoti vartotojo duomenis</h2>
+          </Grid.Row>
+          <Grid.Row centered>
+            <UserProfileForm
+              initialValues={_.pick(
+                this.props.user,
+                "firstname",
+                "lastname",
+                "address",
+                "email",
+                "mac",
+                "subscription",
+                "price",
+                "comment"
+              )}
+              onSubmit={this.onSubmit}
+            />
+          </Grid.Row>
+        </Grid>
       </div>
     );
   }
@@ -160,11 +214,14 @@ export class UserShow extends React.Component {
 
     if (user.user.role != "admin") {
       return (
-        <div >
+        <div>
           <Header />
           <Menu className="ui secondary pointing menu">
             <Menu.Item data-testid="adminView">
-              <h1>Administravimo Sistema</h1>
+              <h1>
+                <Icon name="clipboard outline" />
+                Klientų Administravimo Sistema
+              </h1>
             </Menu.Item>
             <Menu.Item
               className="right menu button"
@@ -184,13 +241,13 @@ export class UserShow extends React.Component {
               active={activeItem === "Mano Prenumerata"}
               onClick={this.handleItemClick}
             />
-              <Link
-                to="/login"
-                className="item menu button"
-                onClick={() => this.props.logout()}
-              >
-                Atsijungti
-              </Link>
+            <Link
+              to="/login"
+              className="item menu button"
+              onClick={() => this.props.logout()}
+            >
+              Atsijungti
+            </Link>
           </Menu>
           {this.renderSelected(activeItem)}
         </div>
@@ -226,4 +283,6 @@ const mapStateToProps = (state, ownProps) => {
   return { user: state.users[ownProps.match.params.id] };
 };
 
-export default connect(mapStateToProps, { fetchUser, editUser, logout })(UserShow);
+export default connect(mapStateToProps, { fetchUser, editUser, logout })(
+  UserShow
+);

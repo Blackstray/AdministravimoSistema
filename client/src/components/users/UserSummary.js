@@ -7,8 +7,6 @@ const UserSummary = (props) => {
         <Segment.Group horizontal>
             <Segment className="important">Klientai: {props.count}</Segment>
             <Segment className="important">Prenumeratų Pajamos: {props.income} €</Segment>
-            {/* <Segment className="important">Besibaigiančios prenumeratos: {props.expiring} </Segment>
-            <Segment className="important">Pasibaigusios prenumeratos: {props.expired} </Segment> */}
         </Segment.Group>
     )
 }

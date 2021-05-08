@@ -3,8 +3,11 @@ import { Button, Modal, Icon } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { createUser } from "../../actions/users";
 import UserForm from './UserForm';
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import '../GlobalStyles.css';
 
+toast.configure()
 class UserCreate extends React.Component {
    state = { open: false }
 
@@ -15,6 +18,8 @@ class UserCreate extends React.Component {
     formValues.subscriptionEnd = Date.now();
     console.log(formValues.password);
     this.props.createUser(formValues);
+    this.setState({open: false});
+    toast.success(`Vartotojas ${formValues.firstname} Sukurtas`);
   };
   render() {
   return (
@@ -36,7 +41,7 @@ class UserCreate extends React.Component {
         style={{padding: '10px'}}
       >
         <Modal.Header>Naujas Klientas</Modal.Header>
-        <Modal.Content><UserForm onSubmit={this.onSubmit} /></Modal.Content>
+        <Modal.Content><UserForm data-testid="user-form" onSubmit={this.onSubmit} /></Modal.Content>
       </Modal>
     </div>
   )

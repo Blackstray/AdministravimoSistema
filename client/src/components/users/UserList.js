@@ -23,14 +23,9 @@ class UserList extends React.Component {
   
   componentDidMount() {
     const user = JSON.parse(localStorage.getItem("user"));
-    //console.log(user.tokens.refresh.token);
     var refreshToken = { refreshToken: user.tokens.refresh.token};
     this.props.refreshTokens(refreshToken);
     this.props.fetchUsers();
-  }
-
-  componentDidUpdate() {
-    //console.log(this.state.search);
   }
 
   renderCreate() {
@@ -59,9 +54,9 @@ class UserList extends React.Component {
   setColor(user) {
     var date = new Date(user.subscriptionEnd);
     var dif = this.calculateDifferance(date);
-    if (dif < 7 && dif > 0) {
+    if (dif < 7 && dif > 3) {
       return "yellow";
-    } else if (dif < 0) {
+    } else if (dif < 4) {
       return "red";
     } else {
       return "green";
@@ -75,19 +70,15 @@ class UserList extends React.Component {
     var date;
     var dif;
     for (var i = 0; i < users.length; i++) {
+      if(users[i].role == "user"){
       income = income + parseFloat(users[i].price);
       date = new Date(users[i].subscriptionEnd);
       dif = this.calculateDifferance(date);
-      if (dif < 7 && dif > 0) {
-        expiringCount = expiringCount + 1;
-      }
-      if (dif < 0) {
-        expiredCount = expiredCount + 1;
       }
     }
     return (
       <UserSummary
-        count={users.length}
+        count={users.length-1}
         income={income.toFixed(2)}
         expiring={expiringCount}
         expired={expiredCount}
@@ -133,19 +124,21 @@ class UserList extends React.Component {
 
   renderList(users) {
     return users.map((user) => {
-      if (
-        user.firstname
-          .toLowerCase()
-          .includes(this.state.search.toLowerCase()) ||
-        user.lastname.toLowerCase().includes(this.state.search.toLowerCase()) ||
-        user.mac.toLowerCase().includes(this.state.search.toLowerCase()) ||
-        user.subscription
-          .toLowerCase()
-          .includes(this.state.search.toLowerCase()) ||
-        user.price.toString().includes(this.state.search.toString())
-      )
+      // if(user.firstname != null)
+      // if (
+      //   user.firstname
+      //     .toLowerCase()
+      //     .includes(this.state.search.toLowerCase()) ||
+      //   user.lastname.toLowerCase().includes(this.state.search.toLowerCase()) ||
+      //   user.mac.toLowerCase().includes(this.state.search.toLowerCase()) ||
+      //   user.subscription
+      //     .toLowerCase()
+      //     .includes(this.state.search.toLowerCase()) ||
+      //   user.price.toString().includes(this.state.search.toString()) 
+      // )
+      // if(user.role != "admin" )
         return (
-          <div className="item ui grid list-items alignCenter" key={user.id}>
+          <Container className="ui grid main-list alignCenter" key={user.id} style={{ verticalAlign: "middle" }}>
             <List
               className="two wide column"
               size="large"
@@ -231,7 +224,7 @@ class UserList extends React.Component {
                   <Dropdown.Item>
                     <Link className="text" to={`/users/extend/${user.id}`}>
                       <Icon name="calendar plus" />
-                      Pratesti Prenumerata
+                      Pratęsti Prenumeratą
                     </Link>
                   </Dropdown.Item>
                   <Dropdown.Item>
@@ -246,13 +239,13 @@ class UserList extends React.Component {
                   <Dropdown.Item>
                     <Link className="text" to={`/users/messagesend/${user.id}`}>
                       <Icon name="mail" />
-                      Siusti Pranesima
+                      Siusti Pranesimą
                     </Link>
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Container>
-          </div>
+          </Container>
         );
     });
   }
@@ -269,9 +262,9 @@ class UserList extends React.Component {
     }
     else
       return (
-        <div className="listing text">
-          <Header isSignedIn={this.props.isSignedIn}/>
-          <div className="item ui grid" style={{ paddingTop: "10px", width: "80%" }}>
+        <Container fluid>
+          <Header isSignedIn={this.props.isSignedIn} />
+          <Container className="item ui grid alignCenter main-list topRounded" style={{ paddingTop: "10px" }}>
             <Grid container style={{ height: "60px" }}>
               <Grid.Column width={12} floated="left" className="alignRight">
                 {this.renderSummery(this.props.users)}
@@ -285,8 +278,8 @@ class UserList extends React.Component {
                 />
               </Grid.Column>
             </Grid>
-          </div>
-          <div className="item ui grid alignCenter main-list" style={{ verticalAlign: "middle", width: "80%" }}>
+          </Container>
+          <Container className="item ui grid alignCenter main-list" style={{ verticalAlign: "middle" }}>
             <List
               className="two wide column important"
               size="large"
@@ -368,11 +361,12 @@ class UserList extends React.Component {
                 <List.Content>{this.renderCreate()}</List.Content>
               </List.Item>
             </List>
-          </div>
-          <div className="ui celled list list-scroll main-list" style={{ verticalAlign: "middle", width: "80%", align: "middle" }}>
+           <Container className="ui celled list" style={{ verticalAlign: "middle", align: "middle", height: "800px" }}>
             {this.renderList(this.sortList(this.props.users))}
-          </div>
-        </div>
+          </Container> 
+          </Container>
+          
+        </Container>
       );
   }
 }

@@ -46,7 +46,6 @@ class ScheduledMessageList extends React.Component {
               <List.Content>
                 <Button compact circular>
                 <Link style={{display: 'flex'}} to={`/messages/deleteScheduled/${scheduledMessage.id}`} className="text">
-                    {/* <Icon name='edit' /> */}
                     Ištrinti
                   </Link>
                 </Button>

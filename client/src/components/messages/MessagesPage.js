@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from "semantic-ui-react";
+import { Grid, Container } from "semantic-ui-react";
 import { connect } from "react-redux";
 import MessageGroupList from './MessageGroupList';
 import ScheduledMessageList from './ScheduledMessageList';
@@ -12,8 +12,9 @@ class MessagesPage extends React.Component {
             return <div></div>;
           } else
         return (
-            <div>
+            <Container fluid>
                 <Header />
+                <Container>
                 <Grid>
                   <Grid.Row>
                     <Grid.Column width={8}>
@@ -24,7 +25,8 @@ class MessagesPage extends React.Component {
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
-            </div>
+                </Container>
+            </Container>
         );
     }
 }

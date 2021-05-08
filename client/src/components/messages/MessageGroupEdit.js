@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { Button, Modal, Icon } from 'semantic-ui-react';
+import { Button, Modal } from 'semantic-ui-react';
 import { connect } from "react-redux";
 import { editMessageGroup, fetchMessageGroup } from "../../actions/messageGroups";
 import MessageGroupForm from './MessageGroupForm';
@@ -29,7 +29,6 @@ class MessageGroupEdit extends React.Component {
                     compact
                     circular
                 >
-                    {/* <Icon name='edit' /> */}
                     Redaguoti
                 </Button>
 

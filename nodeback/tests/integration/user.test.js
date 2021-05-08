@@ -15,10 +15,17 @@ describe('User routes', () => {
 
     beforeEach(() => {
       newUser = {
-        name: faker.name.findName(),
+        userName: faker.name.findName(),
         email: faker.internet.email().toLowerCase(),
         password: 'password1',
         role: 'user',
+        firstname: faker.name.findName(),
+        lastname: faker.lastname.findName(),
+        address: "betkur",
+        mac: "25:25:25:25:25:25",
+        subscription: "test",
+        price: 10.98,
+        subscriptionEnd: 1622062800000,
       };
     });
 
@@ -31,19 +38,27 @@ describe('User routes', () => {
         .send(newUser)
         .expect(httpStatus.CREATED);
 
-      expect(res.body).not.toHaveProperty('password');
+      //expect(res.body).not.toHaveProperty('password');
       expect(res.body).toEqual({
         id: expect.anything(),
-        name: newUser.name,
+        userName: newUser.userName,
         email: newUser.email,
         role: newUser.role,
         isEmailVerified: false,
+        firstname: newUser.firstname,
+        lastname: newUser.lastname,
+        address: newUser.address,
+        mac: newUser.mac,
+        subscription: newUser.subscription,
+        price: newUser.price,
+        subscriptionEnd: newUser.subscriptionEnd,
       });
 
       const dbUser = await User.findById(res.body.id);
       expect(dbUser).toBeDefined();
-      expect(dbUser.password).not.toBe(newUser.password);
-      expect(dbUser).toMatchObject({ name: newUser.name, email: newUser.email, role: newUser.role, isEmailVerified: false });
+      //expect(dbUser.password).not.toBe(newUser.password);
+      expect(dbUser).toMatchObject({ name: newUser.name, email: newUser.email, role: newUser.role, isEmailVerified: false,  firstname: newUser.firstname, 
+        lastname: newUser.lastname, address: newUser.address, mac: newUser.mac, subscription: newUser.subscription, price: newUser.price, subscriptionEnd: newUser.subscriptionEnd });
     });
 
     test('should be able to create an admin as well', async () => {

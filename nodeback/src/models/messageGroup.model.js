@@ -3,8 +3,14 @@ const { toJSON, paginate } = require('./plugins');
 
 const messageGroupSchema = mongoose.Schema(
     {
-      name: String,
-      description: String,
+      name: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
       members: [],
     },
     { timestamps: true },

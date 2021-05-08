@@ -18,13 +18,11 @@ class UserMessageSend extends React.Component {
       }
 
     onSubmit(id) {
-        //console.log(this.props);
         var formValues = {
             to: this.props.user[id].email,
             subject: this.state.subject,
             content: this.state.content
         }
-        //console.log(formValues);
         this.props.sendEmail(formValues);
     }
 

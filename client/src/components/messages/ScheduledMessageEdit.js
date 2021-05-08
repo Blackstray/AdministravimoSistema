@@ -11,11 +11,9 @@ class ScheduledMessageEdit extends React.Component {
 
     fetchScheduledMessage() {
         this.props.fetchScheduledMessage(this.props.id);
-        //console.log(this.props.scheduledMessage);
     }
 
     onSubmit = (formValues) => {
-        //console.log(formValues);
         this.props.editScheduledMessage(this.props.id, formValues);
     }
 
@@ -30,7 +28,6 @@ class ScheduledMessageEdit extends React.Component {
                     circular
                     onClick={() => { this.setState({open: true});this.fetchScheduledMessage(); }}
                 >
-                    {/* <Icon name='edit' /> */}
                     Redaguoti
                 </Button>
                 <Modal

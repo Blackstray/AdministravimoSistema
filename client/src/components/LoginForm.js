@@ -1,7 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
-import { Link } from "react-router-dom";
-import GoogleAuth from './GoogleAuth';
+import { reduxForm } from "redux-form";
 import './GlobalStyles.css';
 import {
   Button,
@@ -36,7 +34,7 @@ class LoginForm extends React.Component {
           <Grid.Column style={{ maxWidth: 450 }}>
             <Header as="h2" color="teal" textAlign="center">
               {/* <img src="/static/images/logo.png" alt="logo" className="image" />{" "} */}
-              Administravimo Sistema
+              Klientų Administravimo Sistema
             </Header>
             <Form size="large" onSubmit={this.props.handleSubmit(this.onSubmit)}>
               <Segment stacked>

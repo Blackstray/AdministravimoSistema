@@ -31,7 +31,6 @@ export const editScheduledMessage = (id, formValues) => async dispatch => {
     const response = await scheduledMessages.patch(`/scheduledMessages/${id}`, formValues);
 
     dispatch({ type: EDIT_SCHEDULEDMESSAGE, payload: response.data });
-    //Here we do programatic navigation
     history.push('/messages');
 };
 

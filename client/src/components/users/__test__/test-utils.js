@@ -5,6 +5,8 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 // Import your own reducer
 import reducer from '../../../reducers';
+import { Router, Route, Switch } from "react-router-dom";
+import history from "../../../history";
 
 function render(
   ui,
@@ -15,7 +17,7 @@ function render(
   } = {}
 ) {
   function Wrapper({ children }) {
-    return <Provider store={store}>{children}</Provider>
+    return <Provider store={store}><Router history={history}>{children}</Router></Provider>
   }
   return rtlRender(ui, { wrapper: Wrapper, ...renderOptions })
 }

@@ -4,8 +4,23 @@ import { Form, Input, Button, TextArea } from 'semantic-ui-react';
 import history from "../../history";
 import "../GlobalStyles.css";
 
+// $(`.ui form`)
+//   .form({
+//     fields: {
+//       field1: {
+//         rules: [
+//           {
+//             type: 'empty',
+//             prompt: 'Prasome'
+//           }
+//         ]
+//       }
+//     }
+//   })
+
 class UserForm extends React.Component {
-  state = { firstname: "", lastname: "", email: "", address: "", mac: "", comment: "", subscription: "", price: "" }
+  state = { firstname: "", lastname: "", email: "", address: "", 
+            mac: "", comment: "", subscription: "", price: "", firstnameError: false }
 
   componentDidMount() {
     if(this.props.initialValues != null){
@@ -19,12 +34,25 @@ class UserForm extends React.Component {
         price: this.props.initialValues.price})
     }
   }
+  
+  onSubmit = (e) => {
+    e.preventDefault();
+    let error = false;
 
-  onSubmit = () => {
+    if(this.state.firstname === '') {
+      this.setState({ firstnameError: true })
+      error = true;
+    } else {
+      this.setState({ firstnameError: false })
+    }
+
+    if(error){
+      return;
+    }
+
     var formValues = { firstname:this.state.firstname, lastname:this.state.lastname,
     email:this.state.email, address:this.state.address, mac:this.state.mac, comment:this.state.comment,
     subscription:this.state.subscription, price:this.state.price};
-    //console.log(formValues);
     this.props.onSubmit(formValues);
   }
 
@@ -34,18 +62,17 @@ class UserForm extends React.Component {
 
   render() {
     const { firstname, lastname, email, address, mac, comment, subscription, price } = this.state;
-    //this.setState({firstname: this.props.initialValues.firstname});
-    //{this.props.handleSubmit(this.onSubmit)}
+
     return (
       <Form size="small" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-        <Form.Group>
+        <Form.Group error={"Vardas"}>
           <Form.Input
             label="Vardas"
             name='firstname'
             placeholder="Vardenis"
             value={firstname}
-            required
             onChange={this.onFieldChange}
+            error={this.state.firstnameError}
           />
           <Form.Input
             label="Pavarde"
@@ -107,11 +134,13 @@ class UserForm extends React.Component {
           name='comment'
           placeholder=""
           value={comment}
-          required
           onChange={this.onFieldChange}
         />
-        <Button content="Patvirtinti" onClick={() => history.push("/")}/>
-        {/* <Form.Field control={Button} content="Patvirtinti" onClick={() => history.push("/")} /> */}
+        <Form.Button 
+        content="Patvirtinti" 
+        onClick={() => history.push("/")}
+        //disabled={!this.state.firstname}
+        />
       </Form>
     );
   }

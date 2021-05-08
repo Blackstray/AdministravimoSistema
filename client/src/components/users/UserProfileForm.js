@@ -1,16 +1,16 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { Form, Input, Button, TextArea } from 'semantic-ui-react';
-import history from "../../history";
+import { Form, Button } from 'semantic-ui-react';
 
 class UserProfileForm extends React.Component {
-  state = { firstname: "", lastname: "", address: "", mac: "", comment: "", subscription: "", price: "" }
+  state = { firstname: "", lastname: "", address: "", email: "", mac: "", comment: "", subscription: "", price: "" }
 
   componentDidMount() {
     if(this.props.initialValues != null){
       this.setState({firstname: this.props.initialValues.firstname, 
       lastname: this.props.initialValues.lastname, 
       address: this.props.initialValues.address,
+      email: this.props.initialValues.email,
       mac:this.props.initialValues.mac,
       price: this.props.initialValues.price,
       subscription: this.props.initialValues.subscription,
@@ -21,9 +21,8 @@ class UserProfileForm extends React.Component {
 
   onSubmit = () => {
     var formValues = { firstname:this.state.firstname, lastname:this.state.lastname,
-     address:this.state.address, mac:this.state.mac, comment:this.state.comment,
+     address:this.state.address, email: this.state.email, mac:this.state.mac, comment:this.state.comment,
     subscription:this.state.subscription, price:this.state.price};
-    //console.log(formValues);
     this.props.onSubmit(formValues);
   }
 
@@ -32,12 +31,11 @@ class UserProfileForm extends React.Component {
   }
 
   render() {
-    const { firstname, lastname, address, mac, comment, subscription, price } = this.state;
-    //this.setState({firstname: this.props.initialValues.firstname});
-    //{this.props.handleSubmit(this.onSubmit)}
+    const { firstname, lastname, address, email, mac, comment, subscription, price } = this.state;
     return (
       <Form size="small" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-        <Form.Group>
+        <Form.Group widths={1}>
+          <Form.Field style={{ paddingRight: 70}}>
           <Form.Input
             label="Vardas"
             name='firstname'
@@ -46,6 +44,7 @@ class UserProfileForm extends React.Component {
             required
             onChange={this.onFieldChange}
           />
+          </Form.Field>
           <Form.Input
             label="Pavarde"
             name='lastname'
@@ -54,6 +53,9 @@ class UserProfileForm extends React.Component {
             required
             onChange={this.onFieldChange}
           />
+          </Form.Group>
+          <Form.Group>
+          <Form.Field style={{ paddingRight: 70}}>
           <Form.Input
             label="Addresas"
             name='address'
@@ -62,9 +64,19 @@ class UserProfileForm extends React.Component {
             required
             onChange={this.onFieldChange}
           />
+          </Form.Field>
+          <Form.Input
+            label="Paštas"
+            name='email'
+            placeholder="email@gmail.com"
+            value={email}
+            required
+            onChange={this.onFieldChange}
+          />
         </Form.Group>
-        <Button content="Patvirtinti" />
-        {/* <Form.Field control={Button} content="Patvirtinti" onClick={() => history.push("/")} /> */}
+        <Form.Field>
+         <Button content="Patvirtinti" /> 
+        </Form.Field>
       </Form>
     );
   }

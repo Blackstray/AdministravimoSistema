@@ -1,6 +1,5 @@
 import React from "react";
-import history from "../../history";
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { Dropdown, Form, Input, Button, TextArea } from "semantic-ui-react";
 

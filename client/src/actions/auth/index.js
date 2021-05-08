@@ -1,5 +1,4 @@
 import auth from '../../apis/users';
-import history from '../../history';
 import { REFRESH_TOKENS, LOGOUT, LOGIN_SUCCESS, LOGIN_FAIL, SET_MESSAGE, SEND_EMAIL } from './types';
 
 import AuthService from '../../services/auth.service';
